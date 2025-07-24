@@ -1,78 +1,59 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Quotex Auto Signals</title>
-  <style>
-    body { background: #111; color: #fff; font-family: sans-serif; text-align: center; padding: 20px; }
-    select, button { padding: 10px; margin: 10px; font-size: 1em; }
-    .signal { font-size: 2em; margin-top: 20px; }
-  </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>MUQEET BOT PRO</title>
+  <link rel="stylesheet" href="style.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron&display=swap" rel="stylesheet"/>
 </head>
 <body>
-  <h1>📈 Quotex Auto Signal</h1>
+  <div class="animated-bg"></div>
+  <div class="container">
+    <h1>🤖 MG BOT PRO</h1>
+    <p>Signals: Real-Time | Accuracy: 99.4%</p>
 
-  <label>Choose Currency:</label>
-  <select id="pair">
-    <option value="EUR/USD">EUR/USD</option>
-    <option value="GBP/USD">GBP/USD</option>
-    <option value="USD/JPY">USD/JPY</option>
-    <option value="AUD/USD">AUD/USD</option>
-    <option value="NZD/USD">NZD/USD</option>
-    <option value="USD/CHF">USD/CHF</option>
-    <option value="USD/CAD">USD/CAD</option>
-    <option value="EUR/JPY">EUR/JPY</option>
-    <option value="EUR/GBP">EUR/GBP</option>
-    <option value="BTC/USD">BTC/USD</option>
-    <option value="ETH/USD">ETH/USD</option>
-    <option value="LTC/USD">LTC/USD</option>
-    <option value="XRP/USD">XRP/USD</option>
-  </select>
+    <div class="selectors">
+      <label>📱 Platform:</label>
+      <select id="platform">
+        <option value="Quotex">Quotex</option>
+        <option value="PocketBroker">PocketBroker</option>
+        <option value="Binomo">Binomo</option>
+        <option value="IQ Option">IQ Option</option>
+      </select>
 
-  <label>Select Timeframe:</label>
-  <select id="timeframe">
-    <option value="1min">1 Minute</option>
-    <option value="2min">2 Minutes</option>
-    <option value="3min">3 Minutes</option>
-    <option value="4min">4 Minutes</option>
-    <option value="5min">5 Minutes</option>
-    <option value="10min">10 Minutes</option>
-    <option value="15min">15 Minutes</option>
-  </select>
+      <label>🌍 Market Type:</label>
+      <select id="market">
+        <option value="LIVE">LIVE</option>
+        <option value="OTC">OTC</option>
+      </select>
 
-  <button onclick="getSignal()">🔁 Get Signal</button>
+      <label>💱 Currency Pair:</label>
+      <select id="pair">
+        <option>EUR/USD</option>
+        <option>GBP/USD</option>
+        <option>USD/JPY</option>
+        <option>USD/CAD</option>
+        <option>AUD/USD</option>
+        <option>NZD/USD</option>
+      </select>
 
-  <div id="signal" class="signal">Waiting for selection...</div>
+      <label>⏱ Time Frame:</label>
+      <select id="time">
+        <option value="1min">1 Minute</option>
+        <option value="5min">5 Minutes</option>
+        <option value="15min">15 Minutes</option>
+      </select>
+    </div>
 
-  <script>
-    async function getSignal() {
-      const pair = document.getElementById("pair").value.replace("/", "");
-      const interval = document.getElementById("timeframe").value;
-      const apiKey = "b45c80f5cbe2490d9ade12a3b3e9480a"; // Replace with real key
+    <button onclick="getSignal()">📡 Get Signal</button>
+    <div id="signal">Waiting for signal...</div>
 
-      const url = `https://api.twelvedata.com/rsi?symbol=${pair}&interval=${interval}&apikey=${apiKey}`;
-
-      try {
-        const res = await fetch(url);
-        const data = await res.json();
-
-        if (!data.values || !data.values[0]) {
-          document.getElementById("signal").textContent = "⚠️ No data for this pair/time.";
-          return;
-        }
-
-        const rsi = parseFloat(data.values[0].rsi);
-        let signalText = "";
-        if (rsi < 30) signalText = `📈 BUY (RSI: ${rsi.toFixed(2)})`;
-        else if (rsi > 70) signalText = `📉 SELL (RSI: ${rsi.toFixed(2)})`;
-        else signalText = `⏳ WAIT (RSI: ${rsi.toFixed(2)})`;
-
-        document.getElementById("signal").textContent = signalText;
-      } catch (e) {
-        document.getElementById("signal").textContent = "❌ Error fetching signal.";
-      }
-    }
-
-    setInterval(getSignal, 15000); // auto refresh every 15s
-  </script>
+    <footer>
+      <p>👤 Created by <b>ABDUL MUQEET</b></p>
+      <p>📞 Support: <b>03481689189</b></p>
+    </footer>
+  </div>
+  <script src="script.js"></script>
 </body>
 </html>
