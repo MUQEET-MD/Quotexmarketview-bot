@@ -1,25 +1,29 @@
 async function getSignal() {
-  const pair = document.getElementById("pair").value;
-  const time = document.getElementById("time").value;
+  const pair = document.getElementById("pair").value.replace("/", "");
+  const time = document.getElementById("time").value.replace("min", "min");
   const signalDiv = document.getElementById("signal");
 
   signalDiv.innerText = "Fetching signal...";
 
   try {
-    // 🔥 Replace below with real API later
-    // let response = await fetch(`https://api.example.com/signal?pair=${pair}&time=${time}`);
-    // let data = await response.json();
+    // Real API Call
+    let response = await fetch(`https://api.twelvedata.com/time_series?symbol=${pair}&interval=${time}&apikey=b45c80f5cbe2490d9ade12a3b3e9480a`);
+    let data = await response.json();
 
-    // Simulated signal (for now)
-    const signals = ["BUY ✅", "SELL 🔻", "WAIT ⏳"];
-    const randomSignal = signals[Math.floor(Math.random() * signals.length)];
+    if (!data || !data.values || data.status === "error") {
+      throw new Error("Invalid data");
+    }
 
-    signalDiv.innerText = `${pair} | ${time} = ${randomSignal}`;
-    signalDiv.style.color = randomSignal.includes("BUY") ? "#00ff00" :
-                            randomSignal.includes("SELL") ? "#ff0000" : "#ffcc00";
+    const latest = data.values[0];
+    const open = parseFloat(latest.open);
+    const close = parseFloat(latest.close);
+
+    const signal = close > open ? "BUY ✅" : "SELL 🔻";
+    signalDiv.innerText = `${pair} | ${time} = ${signal}`;
+    signalDiv.style.color = signal.includes("BUY") ? "#00ff00" : "#ff0000";
 
   } catch (err) {
-    signalDiv.innerText = "Error fetching signal.";
+    signalDiv.innerText = "No data for this pair. ❌";
     signalDiv.style.color = "red";
   }
-}
+      }
